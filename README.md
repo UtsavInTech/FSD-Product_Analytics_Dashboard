@@ -5,6 +5,11 @@ An interactive analytics dashboard that tracks and visualizes its **own user int
 Built as part of the **Vigility Technologies Full Stack Challenge**.
 
 # Live Demo
+Frontend:
+https://fsd-product-analytics-dashboard.vercel.app
+
+Backend:
+https://fsd-product-analytics-dashboard.onrender.com
 
 GitHub Repository:
 https://github.com/UtsavInTech/FSD-Product_Analytics_Dashboard
