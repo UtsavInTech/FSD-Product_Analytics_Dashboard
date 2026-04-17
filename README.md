@@ -252,40 +252,19 @@ Frontend structured using:
 
 Charts dynamically update based on backend aggregation queries.
 
-# 📊 Scaling Strategy (Handling 1 Million Events / Minute)
+## Scaling Strategy (Handling 1 Million Write Events per Minute)
 
-To support high-volume analytics traffic:
-I would redesign the backend using:
+If this analytics dashboard needed to support ~1 million write-events per minute, I would redesign the backend using an event-driven architecture instead of direct synchronous database writes.
 
-### Event Streaming Pipeline
-Replace direct DB writes with:
-Kafka / RabbitMQ
-to queue click events asynchronously.
+First, user interaction events would be published to a distributed message broker such as Apache Kafka or RabbitMQ. This would decouple ingestion from processing and prevent database bottlenecks during traffic spikes.
 
-### Batch Processing
-Use:
-to queue click events asynchronously.
-Apache Spark / Flink
-for aggregation instead of real-time SQL queries.
+Next, stream-processing tools like Apache Flink or Spark Streaming would aggregate events in near real-time before storing them in an analytics-optimized database such as ClickHouse or TimescaleDB, which are designed for high-volume time-series workloads.
 
-### Caching Layer
-Introduce:
-Redis
-for frequently requested analytics data.
+To improve response latency for dashboards, a Redis caching layer would be introduced for frequently requested aggregations.
 
-### Database Optimization
-Switch to:
-TimescaleDB / ClickHouse
-for time-series analytics workloads.
+Finally, the backend services would be containerized using Docker and deployed on Kubernetes with horizontal autoscaling and load balancing to ensure high availability and fault tolerance under heavy traffic.
 
-### Horizontal Scaling
-Deploy backend services using:
-Docker + Kubernetes
-with load balancing.
-
-This architecture would support **millions of writes per minute efficiently** while maintaining dashboard responsiveness.
-
-
+This architecture enables the system to scale efficiently while maintaining low latency for analytics queries.
 #  Author
 **Utsav Kumar**
 
