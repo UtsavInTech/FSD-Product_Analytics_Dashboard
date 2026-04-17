@@ -4,8 +4,11 @@ from . import models
 from .routes import auth_routes, tracking_routes
 from .routes.analytics_routes import router as analytics_router
 from fastapi.middleware.cors import CORSMiddleware
+from .database import engine
+from .models import Base
 
 app = FastAPI()
+Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
