@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime
 
 
-# -------- USER SCHEMAS --------
+# USER SCHEMAS
 
 class UserCreate(BaseModel):
     username: str
@@ -26,7 +26,7 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
-# -------- FEATURE CLICK SCHEMAS --------
+# FEATURE CLICK SCHEMAS
 
 class FeatureClickCreate(BaseModel):
     feature_name: str
