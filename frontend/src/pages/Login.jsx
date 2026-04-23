@@ -2,20 +2,22 @@ import { useState } from "react";
 import api from "../services/api";
 
 export default function Login({ setToken, goToRegister }) {
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    try {
-      const body = `username=${encodeURIComponent(
-        username
-      )}&password=${encodeURIComponent(password)}`;
 
-      const res = await api.post("/login", body, {
-        headers: {
-          "Content-Type":
-            "application/x-www-form-urlencoded",
-        },
+    if (!username || !password) {
+      alert("Username & password required");
+      return;
+    }
+
+    try {
+
+      const res = await api.post("/login", {
+        username: username,
+        password: password,
       });
 
       localStorage.setItem(
@@ -26,14 +28,18 @@ export default function Login({ setToken, goToRegister }) {
       setToken(res.data.access_token);
 
     } catch (err) {
+
       console.error(
         err.response?.data || err.message
       );
+
       alert("Invalid credentials ❌");
+
     }
   };
 
   return (
+
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
       <div className="bg-white shadow-lg rounded-xl p-8 w-96">
@@ -45,6 +51,7 @@ export default function Login({ setToken, goToRegister }) {
         <input
           placeholder="Username"
           className="border p-2 w-full mb-4 rounded"
+          value={username}
           onChange={(e) =>
             setUsername(e.target.value)
           }
@@ -54,6 +61,7 @@ export default function Login({ setToken, goToRegister }) {
           placeholder="Password"
           type="password"
           className="border p-2 w-full mb-6 rounded"
+          value={password}
           onChange={(e) =>
             setPassword(e.target.value)
           }
@@ -66,7 +74,6 @@ export default function Login({ setToken, goToRegister }) {
           Login
         </button>
 
-        {/* REGISTER NAVIGATION */}
         <p
           onClick={goToRegister}
           className="text-sm text-blue-600 mt-4 text-center cursor-pointer hover:underline"
